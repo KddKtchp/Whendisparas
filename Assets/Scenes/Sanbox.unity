@@ -509,6 +509,40 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &337805925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 337805926}
+  m_Layer: 0
+  m_Name: Terreno
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &337805926
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337805925}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1267734028}
+  - {fileID: 1711539460}
+  - {fileID: 1566775543}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,12 +814,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267734024}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -6.5, z: 0}
   m_LocalScale: {x: 126.18374, y: 3.249, z: 88.28585}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 337805926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1442504462
 GameObject:
@@ -964,7 +998,7 @@ Transform:
   m_LocalScale: {x: 126.18374, y: 1, z: 88.28585}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 337805926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -94.056}
 --- !u!1 &1711539456
 GameObject:
@@ -1069,7 +1103,7 @@ Transform:
   m_LocalScale: {x: 126.18374, y: 1, z: 88.28585}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 337805926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -94.056}
 --- !u!1001 &5853961348873471831
 PrefabInstance:
@@ -1197,7 +1231,7 @@ PrefabInstance:
     - target: {fileID: 3500464704894030846, guid: e08dd13a66cc1314b94bc35c33215f68,
         type: 3}
       propertyPath: moveSpeed
-      value: 150
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5934213150045669829, guid: e08dd13a66cc1314b94bc35c33215f68,
         type: 3}
@@ -1256,9 +1290,7 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 1267734028}
-  - {fileID: 1711539460}
-  - {fileID: 1566775543}
   - {fileID: 141380682}
   - {fileID: 5853961348873471831}
   - {fileID: 1442504465}
+  - {fileID: 337805926}
