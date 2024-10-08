@@ -2,20 +2,18 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 2f;
-    [SerializeField] float attackRange = 3f;
-    [SerializeField] float attackSpeed = 30f;
-    [SerializeField] float attackCooldown = 2f; // Tiempo entre disparos
+    [SerializeField] float moveSpeed = 2f; // Velocidad de movimiento
+    [SerializeField] float attackRange = 3f; // Rango de ataque
+    [SerializeField] float attackSpeed = 30f; // Velocidad del proyectil
     [SerializeField] GameObject projectilePrefab; // Prefab del proyectil
-    [SerializeField] Transform firePoint; // Punto de donde se dispara el proyectil
+    [SerializeField] Transform firePoint; // Punto desde el que dispara el proyectil
+    [SerializeField] float collisionDamage = 10f; // Daño que hace el enemigo al colisionar con el jugador
 
     private Transform player;
-    private float lastAttackTime; // Para controlar el cooldown
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform; // Encuentra al jugador
-        lastAttackTime = -attackCooldown; // Permitir disparar inmediatamente al iniciar
     }
 
     void Update()
@@ -24,15 +22,10 @@ public class EnemyBehavior : MonoBehaviour
         if (player)
         {
             float distance = Vector3.Distance(transform.position, player.position);
-            // Debug.Log(distance);
             if (distance < attackRange)
             {
-                // Verificar si el cooldown ha terminado
-                if (Time.time >= lastAttackTime + attackCooldown)
-                {
-                    Shoot(); // Lógica para atacar o disparar
-                    lastAttackTime = Time.time; // Actualizar el tiempo del último disparo
-                }
+                // Lógica para atacar o disparar
+                Shoot();
             }
             else
             {
@@ -40,10 +33,6 @@ public class EnemyBehavior : MonoBehaviour
                 Vector3 direction = (player.position - transform.position).normalized;
                 transform.position += direction * moveSpeed * Time.deltaTime;
             }
-            Vector3 dir = (player.position - transform.position).normalized;
-            transform.rotation = Quaternion.LookRotation(dir);
-
-
         }
     }
 
@@ -52,5 +41,21 @@ public class EnemyBehavior : MonoBehaviour
         // Instanciar el proyectil
         GameObject go = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         go.GetComponent<Rigidbody>().AddForce(transform.forward * attackSpeed);
+    }
+
+    // Detecta colisiones con el jugador
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Accede al sistema de salud del jugador y aplica daño
+            HealthSystem playerHealth = collision.gameObject.GetComponent<HealthSystem>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(collisionDamage);
+                Debug.Log("El enemigo ha causado " + collisionDamage + " de daño al jugador.");
+            }
+        }
     }
 }
