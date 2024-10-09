@@ -81,4 +81,8 @@ public class MouseLook : MonoBehaviour
         thirdPersonCamera.Priority = 10; // Raise the priority of third-person camera
         isInThirdPersonView = true;
     }
+    public void FreeMouse()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
 }
