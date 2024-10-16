@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class PauseController : MonoBehaviour
 {
     bool currentPauseState = false;
     [SerializeField] GameObject pauseMenu;
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-
             if (!currentPauseState)
             {
                 PauseGameTime();
@@ -31,6 +28,10 @@ public class PauseController : MonoBehaviour
         currentPauseState = !currentPauseState;
         Time.timeScale = 0;
         pauseMenu.SetActive(true);
+
+        // Mostrar y desbloquear el cursor
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void UnPauseGameTime()
@@ -38,6 +39,10 @@ public class PauseController : MonoBehaviour
         currentPauseState = !currentPauseState;
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
+
+        // Ocultar y bloquear el cursor
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void UnpauseAndRestart()

@@ -9,12 +9,22 @@ using UnityEditor;
 
 public class MenuController : MonoBehaviour
 {
+    private void Start()
+    {
+        // Desbloquear el cursor y hacerlo visible en el menú
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     public void LoadNextScene(string nextScene)
     {
-        // Verificar si el nombre de la escena es válido
         if (!string.IsNullOrEmpty(nextScene) && SceneExists(nextScene))
         {
             SceneManager.LoadScene(nextScene);
+
+            // Bloquear el cursor al cargar la nueva escena
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         else
         {
@@ -30,7 +40,6 @@ public class MenuController : MonoBehaviour
 #endif
     }
 
-    // Método para verificar si la escena está en los Build Settings
     private bool SceneExists(string sceneName)
     {
         for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)

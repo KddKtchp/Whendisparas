@@ -32,6 +32,7 @@ public class Shooting : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+        nextFireTime = Time.time + fireRate;
     }
 
     void Update()
