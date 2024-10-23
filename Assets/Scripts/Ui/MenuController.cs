@@ -30,7 +30,9 @@ public class MenuController : MonoBehaviour
         {
             Debug.LogError("No se puede cargar la escena: nombre de escena no válido o la escena no se agregó a la configuración de compilación.");
         }
+        Time.timeScale = 1;
     }
+   
 
     public void QuitGame()
     {
