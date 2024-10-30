@@ -2,28 +2,35 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 5f; // Movement speed
-    [SerializeField] float jumpForce = 5f; // Jump force
-    [SerializeField] LayerMask groundLayer; // Layer to define what is ground
-    [SerializeField] Transform groundCheck; // Empty GameObject to check if player is grounded
-    [SerializeField] float groundCheckRadius = 0.2f; // Radius for ground checking
-    [SerializeField] float customGravity = -20f; // Custom gravity (negative for downward force)
-    [SerializeField] float fallMultiplier = 2.5f; // Multiplier for when falling down
+    [SerializeField] float moveSpeed = 5f; // Velocidad de movimiento
+    [SerializeField] float jumpForce = 5f; // Fuerza de salto
+    [SerializeField] LayerMask groundLayer; // Capa para definir el suelo
+    [SerializeField] Transform groundCheck; // Objeto vacío para verificar si el jugador está en el suelo
+    [SerializeField] float groundCheckRadius = 0.2f; // Radio de verificación de suelo
+    [SerializeField] float customGravity = -20f; // Gravedad personalizada
+    [SerializeField] float fallMultiplier = 2.5f; // Multiplicador al caer
+    [SerializeField] private GameObject gameOverUI; // UI de Game Over
     private Rigidbody rb;
     private bool isGrounded;
-    private Vector3 velocity; // To track vertical velocity
+    private Vector3 velocity;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.useGravity = false; // Disable default gravity to use custom gravity
+        rb.useGravity = false; // Desactivar la gravedad predeterminada para usar la personalizada
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(false); // Asegurar que la UI de Game Over esté oculta al inicio
+        }
     }
 
     void Update()
     {
+        if (gameOverUI != null && gameOverUI.activeSelf) return; // Evitar que el jugador se mueva si el menú de Game Over está activo
+
         Move();
         Jump();
-        ApplyCustomGravity(); // Apply gravity every frame
+        ApplyCustomGravity();
 
         if (Time.timeScale == 1)
         {
@@ -52,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f; // Reset downward velocity when grounded
+            velocity.y = -2f; // Reiniciar la velocidad hacia abajo cuando está en el suelo
         }
 
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -63,13 +70,22 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyCustomGravity()
     {
-        // Apply custom gravity if not grounded
         if (!isGrounded)
         {
             velocity.y += customGravity * fallMultiplier * Time.deltaTime;
         }
-
-        // Apply vertical velocity to the Rigidbody
         rb.MovePosition(rb.position + velocity * Time.deltaTime);
+    }
+
+    // Llamar a esta función cuando el jugador pierda
+    public void GameOver()
+    {
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true); // Mostrar la UI de Game Over
+            Time.timeScale = 0; // Pausar el juego
+            Cursor.lockState = CursorLockMode.None; // Desbloquear el cursor
+            Cursor.visible = true; // Hacer visible el cursor
+        }
     }
 }

@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI; // Para trabajar con elementos de UI
-using UnityEngine.SceneManagement; // Para manejar cambios de escena
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class WinScreen : MonoBehaviour
 {
-    [SerializeField] private GameObject uiElement; // El elemento de UI que queremos mostrar
+    [SerializeField] private GameObject uiElement; // Elemento de UI de victoria
     [SerializeField] private string targetTag = "Player"; // Tag del objeto que debe activar la UI
     [SerializeField] UnityEvent onTriggerEnter;
     [SerializeField] UnityEvent onTriggerExit;
@@ -24,17 +24,42 @@ public class WinScreen : MonoBehaviour
         // Verificar si el objeto que entra en el Collider tiene el tag correcto
         if (other.CompareTag(targetTag))
         {
-            Time.timeScale = 0; // Congelar el tiempo cuando se gana
+            ActivateWinScreen();
             onTriggerEnter?.Invoke();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // Ocultar el UI cuando el objeto sale del Collider
+        // Ocultar la UI cuando el objeto sale del Collider
         if (other.CompareTag(targetTag))
         {
+            DeactivateWinScreen();
             onTriggerExit?.Invoke();
+        }
+    }
+
+    // Método para activar la pantalla de victoria
+    private void ActivateWinScreen()
+    {
+        if (uiElement != null)
+        {
+            uiElement.SetActive(true); // Mostrar UI
+            Time.timeScale = 0; // Pausar el tiempo
+            Cursor.lockState = CursorLockMode.None; // Desbloquear el cursor
+            Cursor.visible = true; // Hacer visible el cursor
+        }
+    }
+
+    // Método para desactivar la pantalla de victoria
+    private void DeactivateWinScreen()
+    {
+        if (uiElement != null)
+        {
+            uiElement.SetActive(false);
+            Time.timeScale = 1; // Restaurar el tiempo
+            Cursor.lockState = CursorLockMode.Locked; // Bloquear el cursor
+            Cursor.visible = false;
         }
     }
 
